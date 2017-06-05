@@ -7,8 +7,9 @@
 .side-bar {
   width: 12%;
   background-color: #2b2929;
-  height: 87%;
+  height: 90%;
   position: fixed;
+  padding-top: 1%;
 }
 .navbar-inverse{
   background-color: #2b2929;
@@ -98,6 +99,13 @@ top:7px;
   display: inline-block;
   margin-top: 7%;
 }
+.headerOfOffer{
+  margin-left: 10%;
+  margin-top: 2%;
+}
+.TypeOfOffer{
+  margin-left: 11.5%;
+}
 .imagePlace div {
   height: 30%;
   border: 1px dotted grey;
@@ -130,7 +138,7 @@ top:7px;
 }
 .header-offers h3 {
   font-weight: 600;
-  color: #17efce;
+  color: #12caae;
 }
 .portfolios span {
   display: inline-block;
@@ -249,5 +257,5 @@ pre {
 }
 .side-bar ul li span {
   font-weight: 600;
-  color: #17efce;
+  color: #12caae;
 }

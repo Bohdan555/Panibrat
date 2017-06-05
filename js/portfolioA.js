@@ -6,24 +6,16 @@ module.config(['$routeProvider',function($routeProvider){
     templateUrl : 'views/deals.html'
   });
 }]);
-// module.run(['$http',function($http){
-//   $http({
-//       method : 'get',
-//       url: 'http://83dce656.ngrok.io/bodiatest',
-//       success : function(data, textStatus, xhr) {
-//         console.log(data);
-//     }
-//  });
-// }]);
-module.controller('listOfporf',['$scope',function($scope){
- $scope.images = [{url:'pictures/img/img/s-l500 (1).jpg',descr:'lalalala'},{url:'pictures/img/img/s-l500 (1).jpg',descr:'lalalala'},{url:'pictures/img/img/s-l500 (1).jpg',descr:'lalalala'},
-{url:'pictures/img/img/s-l500 (1).jpg',descr:'lalalala'},{url:'pictures/img/img/s-l500 (1).jpg',descr:'lalalala'},{url:'pictures/img/img/s-l500 (1).jpg',descr:'lalalala'}]}]);
-module.controller('offersList',['$scope','$uibModal',function($scope,$uibModal){
+// module.controller('listOfporf',['$scope',function($scope){
+//  $scope.images = [{url:'pictures/img/img/s-l500 (1).jpg',descr:'lalalala'},{url:'pictures/img/img/s-l500 (1).jpg',descr:'lalalala'},{url:'pictures/img/img/s-l500 (1).jpg',descr:'lalalala'},
+// {url:'pictures/img/img/s-l500 (1).jpg',descr:'lalalala'},{url:'pictures/img/img/s-l500 (1).jpg',descr:'lalalala'},{url:'pictures/img/img/s-l500 (1).jpg',descr:'lalalala'}]}]);
+module.controller('offersList',['$scope','$uibModal','$http',function($scope,$uibModal,$http){
   $scope.currentPage = 1;
   $scope.pageSize = 3;
-  $scope.offers = [{url:'pictures/img/img/s-l500 (1).jpg',desrc:''},{url:'pictures/img/img/s-l500 (2).jpg',desrc:''},{url:'pictures/img/img/s-l500 (3).jpg',desrc:''}
-  ,{url:'pictures/img/img/s-l500 (4).jpg',desrc:''},{url:'pictures/img/img/s-l500 (5).jpg',desrc:''},
-  {url:'pictures/img/img/s-l500 (6).jpg',desrc:''},{url:'pictures/img/img/s-l500 (7).jpg',desrc:''}];
+  $http({
+      method : 'get',
+      url: 'http://ceafc034.ngrok.io/testgetoffer',
+  }).then(function(data){$scope.offers = data.data;});
   $scope.resetSlick = true;
   $scope.open = function(size)
     {
@@ -50,9 +42,24 @@ module.controller('offersList',['$scope','$uibModal',function($scope,$uibModal){
         '</div>'+
       '</div>'+
       '<div class="row">'+
+        '<div class="form-group form-group-sm col-md-8 col-md-offset-1 headerOfOffer">'+
+          '<label class="col-md-2 control-label" for="formGroupInputSmall">Назва пропозиції</label>'+
+            '<div class="col-md-5">'+
+              '<input class="form-control" type="text" ng-model="headerOfOffer" id="formGroupInputSmall" placeholder="Назва">'+
+            '</div>'+
+         '</div>'+
+        '<div class="form-group col-md-5 col-md-offset-1 TypeOfOffer">'+
+          '<label for="exampleSelect1">Тип послгуи</label>'+
+          '<select class="form-control" id="exampleSelect1" ng-model="typeOfOffer">'+
+            '<option>Товар</option>'+
+            '<option>Послуга</option>'+
+          '</select>'+
+        '</div>'+
+      '</div>'+
+      '<div class="row">'+
       '<div class="col-md-8 col-md-offset-1 imageDescr">'+
         '<h3>Опис роботи (до 15 слів)</h3>'+
-        '<textarea ng-model="descrOfNewPortfolio" name="name" rows="8" cols="65"> </textarea>'+
+        '<textarea ng-model="descrOfNewOffer" name="name" rows="8" cols="65"> </textarea>'+
       '</div>'+
       '<div class="row">'+
           '<div class="col-md-7 col-md-offset-1 addPortfolioButtons">'+
@@ -74,7 +81,6 @@ module.controller('offersList',['$scope','$uibModal',function($scope,$uibModal){
     modalInstance.result.then(function (images) {
       $scope.offers = images;
       $scope.resetSlick = true;
-      console.log($scope.images);
     }, function () {
       $log.info('Modal dismissed at: ' + new Date());
     });
@@ -85,31 +91,48 @@ module.filter('startFrom',function(){
     return data.slice(start);
   }
 });
-module.controller('CreateOfferModule',['$scope','$uibModalInstance','images',function($scope,$uibModalInstance,images){
+module.controller('CreateOfferModule',['$scope','$uibModalInstance','images','$http',function($scope,$uibModalInstance,images,$http){
     $scope.data = {upload :[]};
     $scope.images = images;
     $scope.closeMod = function(){
-      $uibModalInstance.close();
+      $uibModalInstance.close($scope.images);
     }
     $scope.savePortf = function(){
-      $scope.images.push({url:$scope.data.upload[0].data,descr:$scope.descrOfNewPortfolio});
+      var offerData = {image :$scope.data.upload[0].data,header:$scope.headerOfOffer,offer_type:$scope.typeOfOffer,description:$scope.descrOfNewOffer};
+      console.log(offerData);
+      $http({
+        method : 'post',
+        url: 'http://ceafc034.ngrok.io/testoffer',
+        contentType : 'json',
+        data : angular.toJson(offerData)
+      });
       $uibModalInstance.close($scope.images);
     }
 }]);
-module.controller('CreatePortfModule',['$scope','$uibModalInstance','images',function($scope,$uibModalInstance,images){
+module.controller('CreatePortfModule',['$scope','$uibModalInstance','images','$http',function($scope,$uibModalInstance,images,$http){
     $scope.data = {upload :[]};
     $scope.images = images;
     $scope.closeMod = function(){
-      $uibModalInstance.close();
+      $uibModalInstance.close($scope.images);
     }
     $scope.savePortf = function(){
-      $scope.images.push({url:$scope.data.upload[0].data,descr:$scope.descrOfNewPortfolio});
+      $scope.images.push({url:$scope.data.upload[0].data,description:$scope.descrOfNewPortfolio});
+      var PortfolioImage = {image : $scope.data.upload[0].data,description : $scope.descrOfNewPortfolio};
+      $http({
+        method : 'post',
+        url : 'http://ceafc034.ngrok.io/saveportfolio',
+        contentType : 'json',
+        data : PortfolioImage
+      });
       $uibModalInstance.close($scope.images);
     }
 }]);
-module.controller('createOrChangePorf',['$scope','$uibModal','$log',function($scope,$uibModal,$log){
-  $scope.resetSlick = true;
-  $scope.images = [{url:'pictures/img/img/s-l500 (1).jpg',descr:'lalalala'}];
+module.controller('createOrChangePorf',['$scope','$uibModal','$log','$http',function($scope,$uibModal,$log,$http){
+  //$scope.resetSlick = true;
+  $http({
+    method : 'get',
+    url: 'http://ceafc034.ngrok.io/loadportfolio',
+  }).then(function(data){$scope.images = data.data;$scope.resetSlick = true;});
   $scope.open = function(size)
     {
       $scope.resetSlick = false;
@@ -202,7 +225,6 @@ module.controller('createOrChangePorf',['$scope','$uibModal','$log',function($sc
           '</div>'+
       '</div>'+
       '</div> </div>',
-      // controller: '',
       size: size,
       resolve: {
         images: function () {

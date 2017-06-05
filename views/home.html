@@ -2,17 +2,20 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
   <div class="container-fluid"> 
     <div class="navbar-header">
-      <button type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="#" class="navbar-brand systitle"> <span>Пані</span><span>брат    </span></a>
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">       </a></li>
-        <li>
-          <div class="form-group has-feedback search">           
-            <input type="name" name="name" placeholder="Пошук" class="form-control"/><i class="glyphicon glyphicon-search form-control-feedback">     </i>
-          </div>
-        </li>
-      </ul>
-    </div>
+      <button type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+    </div><a href="#" class="navbar-brand systitle"> <span>Пані</span><span>брат    </span></a>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+      <li><a href="#">       </a></li>
+      <li>
+        <div class="form-group has-feedback search">           
+          <input type="name" name="name" placeholder="Пошук" class="form-control"/><i class="glyphicon glyphicon-search form-control-feedback">     </i>
+        </div>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#"><span class="glyphicon glyphicon-log-out"></span><span>Вийти</span></a></li>
+    </ul>
   </div>
 </nav>
 <div class="side-bar container">   
@@ -85,7 +88,7 @@
         <div class="col-md-12">
           <div class="photos">    
             <slick ng-if="resetSlick" infinite="true" speed="300" slides-to-scroll="1" slides-to-show="7">
-              <div ng-repeat="image in images track by $index">                           <img ng-src="{{image.url}}"/><span>{{image.descr}}        </span></div>
+              <div ng-repeat="image in images">                           <img ng-src="http://ceafc034.ngrok.io{{image.url}}"/><span>{{image.description}}        </span></div>
             </slick>
           </div>
         </div>
@@ -115,9 +118,10 @@
         <div class="col-md-12">         
           <div class="offersList">
             <div ng-repeat="offer in offers  | startFrom:(currentPage-1)*pageSize | limitTo : pageSize" class="media">
-              <div class="media-left"><a href="#"><img src="{{offer.url}}" class="media-object"/></a></div>
+              <div class="media-left"><a href="#">
+                  <div><img src="{{offer.image}}" class="media-object"/></div></a></div>
               <div class="media-body">
-                <h4 class="media-heading">offer</h4><span>lalalalalalalalalalallalalalalaal</span>
+                <h4 class="media-heading">{{offer.header}}</h4><span>{{offer.description}}</span>
               </div>
               <hr/>
             </div>

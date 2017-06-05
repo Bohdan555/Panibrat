@@ -7,10 +7,10 @@ nav.navbar.navbar-inverse.navbar-fixed-top
         span.icon-bar
         span.icon-bar
         span.icon-bar
-      a.navbar-brand.systitle(href='#') 
+    a.navbar-brand.systitle(href='#') 
         span Пані
         span брат    
-      ul.nav.navbar-nav
+    ul.nav.navbar-nav
         li.active
           a(href='#')
             | Link 
@@ -21,6 +21,11 @@ nav.navbar.navbar-inverse.navbar-fixed-top
           div.form-group.has-feedback.search            
             input.form-control(type='name', name='name' placeholder='Пошук')
             i.glyphicon.glyphicon-search.form-control-feedback      
+    ul.nav.navbar-nav.navbar-right
+        li
+          a(href="#")
+            span.glyphicon.glyphicon-log-out
+            span Вийти
 .side-bar.container    
   ul.list-unstyled
     li
@@ -89,9 +94,9 @@ nav.navbar.navbar-inverse.navbar-fixed-top
         .col-md-12
           div.photos     
             slick(ng-if='resetSlick' infinite='true',speed='300',slides-to-scroll='1',slides-to-show='7')
-              div(ng-repeat='image in images track by $index')                            
-                  img(ng-src='{{image.url}}')
-                  span{{image.descr}}        
+              div(ng-repeat='image in images')                            
+                  img(ng-src='http://ceafc034.ngrok.io{{image.url}}')
+                  span{{image.description}}        
 .container#myOffers(ng-controller='offersList')
   .row      
     .col-md-11.col-md-offset-1.offers
@@ -114,10 +119,11 @@ nav.navbar.navbar-inverse.navbar-fixed-top
             div.media(ng-repeat='offer in offers  | startFrom:(currentPage-1)*pageSize | limitTo : pageSize')
               div.media-left
                 a(href='#')
-                  img.media-object(src='{{offer.url}}')                   
+                 div
+                  img.media-object(src='{{offer.image}}')                   
               div.media-body
-                h4.media-heading offer
-                span lalalalalalalalalalallalalalalaal
+                h4.media-heading {{offer.header}}
+                span {{offer.description}}
               hr
             div.paginat
               ul.myPagination(uib-pagination, rotate='true',force-ellipses='true',previous-text="<", next-text=">",total-items='offers.length',ng-model='currentPage',items-per-page='pageSize')    
